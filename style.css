@@ -1,9 +1,17 @@
 /*
-Theme Name: Fly Fishing Basics (GeneratePress Child)
+Theme Name: Fly Fishing Basics
+Theme URI: https://theflyfishingbasics.com
+Author: Clint Losee
+Author URI: https://theflyfishingbasics.com
+Description: GeneratePress child theme for theflyfishingbasics.com. Based on Scribe theme, custom homepage with featured hero, latest articles grid, and Info-style Most Popular sidebar.
 Template: generatepress
 Version: 1.14
-Description: Custom child theme for theflyfishingbasics.com. Scribe-style
-featured hero + Info-style "Most Popular" sidebar, built on GeneratePress.
+Requires at least: 6.0
+Tested up to: 6.8
+Requires PHP: 7.4
+License: GNU General Public License v2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: flybasics-generatepress-child
 */
 
 /* ==========================================================================

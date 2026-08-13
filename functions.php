@@ -91,7 +91,22 @@ function flyb_not_mobile_menu_media_query() {
 add_filter( 'generate_not_mobile_menu_media_query', 'flyb_not_mobile_menu_media_query' );
 
 /**
- * 1d. /blog listing.
+ * 1d. Footer copyright.
+ * GP default is "© {year} {sitename} • Built with GeneratePress".
+ * Keep year + site title only.
+ * https://docs.generatepress.com/article/changing-the-copyright-message/
+ */
+function flyb_copyright() {
+	return sprintf(
+		'<span class="copyright">&copy; %1$s %2$s</span>',
+		esc_html( wp_date( 'Y' ) ),
+		esc_html( get_bloginfo( 'name' ) )
+	);
+}
+add_filter( 'generate_copyright', 'flyb_copyright' );
+
+/**
+ * 1e. /blog listing.
  * "Latest posts" as the homepage means / is the blog index — there is no
  * /blog URL unless a page exists. Create one (once) so the menu and
  * View All Posts can link to a real post list with pagination.
