@@ -1,0 +1,62 @@
+# OS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*~
+.directory
+.Trash-*
+
+# Editors / IDEs
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# Cursor (keep .cursor/rules and AGENTS.md tracked)
+.cursor/*.log
+.cursor/debug.log
+
+# Secrets and local env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+wp-config.php
+wp-config-*.php
+
+# Logs and caches
+*.log
+.sass-cache/
+.cache/
+.phpunit.result.cache
+
+# Dependencies (if a build is added later)
+node_modules/
+vendor/
+composer.phar
+npm-debug.log*
+yarn-error.log*
+
+# Theme zip uploads and junk
+*.zip
+*.tar
+*.tar.gz
+*.rar
+__MACOSX/
+
+# WordPress artifacts that do not belong in a child theme
+.htaccess
+debug.log
+error_log

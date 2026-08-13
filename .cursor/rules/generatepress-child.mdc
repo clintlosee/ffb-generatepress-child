@@ -1,0 +1,18 @@
+---
+description: GeneratePress child theme architecture and homepage gotchas
+alwaysApply: true
+---
+
+# GeneratePress child
+
+This is a **child** of GeneratePress. Extend with `flyb_` functions on GP/WordPress hooks. Do not copy parent templates or edit the parent theme.
+
+Homepage custom UI runs only when `is_front_page() && ! is_paged()`. Hook `generate_before_main_content` at priorities 4–8 (intro, hero, latest articles, flexible widgets, view-all). Keep that order.
+
+Hero and Latest Articles must not show the same post: hero sets `$GLOBALS['flyb_featured_post_id']`; the grid uses `post__not_in`.
+
+To hide GP’s default homepage loop, keep `pre_get_posts` + `post__in => array(0)`. WordPress treats `posts_per_page => 0` as unlimited.
+
+`/blog` exists so menus can link to a real list when Reading is “latest posts”. Prefer `flyb_get_blog_url()` over hardcoding `/blog/`. `page-blog.php` is the template for that page.
+
+When changing CSS, bump `Version` in the `style.css` theme header (enqueue uses it). When changing rewrite rules, bump `flyb_rewrite_ver`.

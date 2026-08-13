@@ -1,0 +1,16 @@
+---
+description: WordPress PHP conventions for this child theme
+globs: "**/*.php"
+alwaysApply: false
+---
+
+# PHP
+
+- Prefix functions, theme mods, and options with `flyb_`; classes with `Flyb_`.
+- Tabs for indentation. Yoda-style comparisons where the file already uses them (`'' === $title`).
+- Every file: `if ( ! defined( 'ABSPATH' ) ) { exit; }`
+- Escape at output. Customizer settings need `sanitize_callback`. Hardcoded SVG/HTML may use a phpcs ignore with a one-line reason.
+- After a custom `WP_Query`, call `wp_reset_postdata()`.
+- Prefer `add_action` / `add_filter` on GeneratePress hooks (`generate_before_main_content`, `generate_sidebar_layout`, `generate_menu_bar_items`, `generate_before_entry_title`) over new page templates.
+- Mobile menu: if one of `generate_mobile_menu_media_query` / `generate_not_mobile_menu_media_query` changes, update both (max 1024 / min 1025).
+- Register new image sizes on `after_setup_theme`. Do not use proportional sizes for the article grid (use `flyb-card-thumb`).

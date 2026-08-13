@@ -1,0 +1,21 @@
+---
+description: Child theme CSS tokens and class naming
+globs: "**/*.css"
+alwaysApply: false
+---
+
+# CSS
+
+Brand tokens live in `:root` at the top of `style.css`. Use them; do not scatter hex values.
+
+```css
+--flyb-orange, --flyb-navy, --flyb-charcoal, --flyb-slate,
+--flyb-mist, --flyb-warm-white, --flyb-white,
+--flyb-font-body, --flyb-font-heading
+```
+
+- Child classes: `.flyb-*`. Override GP/core with existing selectors; keep new layout in `.flyb-*` blocks.
+- Headings: Inter (`--flyb-font-heading`). Body: Frank Ruhl Libre (`--flyb-font-body`).
+- Primary buttons: `.button` orange pill; do not style `.menu-toggle` as a CTA.
+- After visual CSS changes, bump the `Version` in the theme header comment so `wp_enqueue_style` cache-busts.
+- Nav collapse is 1024px (matches PHP GP filters). Keep homepage/grid breakpoints consistent with nearby rules in the same file.
