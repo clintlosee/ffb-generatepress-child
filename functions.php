@@ -427,6 +427,7 @@ function flyb_scribe_single_setup() {
 
 	add_filter( 'generate_show_title', '__return_false' );
 	add_filter( 'generate_header_entry_meta_items', '__return_empty_array' );
+	add_filter( 'generate_footer_entry_meta_items', '__return_empty_array' );
 	add_filter( 'generate_post_date', '__return_false' );
 	add_filter( 'generate_post_author', '__return_false' );
 	remove_action( 'generate_after_entry_title', 'generate_post_meta' );
@@ -486,6 +487,74 @@ function flyb_scribe_post_header() {
 	<?php
 }
 add_action( 'generate_after_header', 'flyb_scribe_post_header', 15 );
+
+/**
+ * Folder + categories, then prev/next titles. Replaces GP footer meta on Scribe singles.
+ * Appended via the_content at 15 so it sits after the post body and before
+ * sharing / related-posts plugins (those usually use 19+).
+ */
+function flyb_scribe_append_post_footer( $content ) {
+	if ( ! flyb_is_scribe_single() || ! is_main_query() || ! in_the_loop() || post_password_required() ) {
+		return $content;
+	}
+
+	static $appended = false;
+	if ( $appended ) {
+		return $content;
+	}
+	$appended = true;
+
+	ob_start();
+	flyb_scribe_post_footer();
+	return $content . ob_get_clean();
+}
+add_filter( 'the_content', 'flyb_scribe_append_post_footer', 15 );
+
+function flyb_scribe_post_footer() {
+	if ( ! flyb_is_scribe_single() ) {
+		return;
+	}
+
+	$categories = get_the_category();
+	$prev       = get_adjacent_post( false, '', true );
+	$next       = get_adjacent_post( false, '', false );
+
+	if ( empty( $categories ) && ! $prev && ! $next ) {
+		return;
+	}
+	?>
+	<div class="flyb-post-footer">
+		<?php if ( ! empty( $categories ) ) : ?>
+			<div class="flyb-post-footer-cats">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 7.5A1.5 1.5 0 0 1 4.5 6h4.17L10.8 8H19.5A1.5 1.5 0 0 1 21 9.5v8A1.5 1.5 0 0 1 19.5 19h-15A1.5 1.5 0 0 1 3 17.5v-10z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+				<?php echo get_the_category_list( ', ' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WP escapes names and URLs. ?>
+			</div>
+		<?php endif; ?>
+		<?php if ( $prev || $next ) : ?>
+			<nav class="flyb-post-nav" aria-label="Post navigation">
+				<?php if ( $prev ) : ?>
+					<a class="flyb-post-nav-link flyb-post-nav-prev" href="<?php echo esc_url( get_permalink( $prev ) ); ?>">
+						<span class="flyb-post-nav-arrow" aria-hidden="true">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+						</span>
+						<span class="screen-reader-text">Previous post: </span>
+						<span class="flyb-post-nav-title"><?php echo esc_html( get_the_title( $prev ) ); ?></span>
+					</a>
+				<?php endif; ?>
+				<?php if ( $next ) : ?>
+					<a class="flyb-post-nav-link flyb-post-nav-next" href="<?php echo esc_url( get_permalink( $next ) ); ?>">
+						<span class="screen-reader-text">Next post: </span>
+						<span class="flyb-post-nav-title"><?php echo esc_html( get_the_title( $next ) ); ?></span>
+						<span class="flyb-post-nav-arrow" aria-hidden="true">
+							<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter"/></svg>
+						</span>
+					</a>
+				<?php endif; ?>
+			</nav>
+		<?php endif; ?>
+	</div>
+	<?php
+}
 
 /**
  * 2a. Homepage welcome intro.

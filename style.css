@@ -1,7 +1,7 @@
 /*
 Theme Name: Fly Fishing Basics (GeneratePress Child)
 Template: generatepress
-Version: 1.11
+Version: 1.13
 Description: Custom child theme for theflyfishingbasics.com. Scribe-style
 featured hero + Info-style "Most Popular" sidebar, built on GeneratePress.
 */
@@ -803,6 +803,107 @@ footer.site-footer {
 		padding: 20px;
 		max-width: none;
 		flex: 1 1 auto;
+	}
+}
+
+.flyb-scribe-single .inside-article > footer.entry-meta {
+	display: none;
+}
+
+.flyb-post-footer {
+	margin-top: 0;
+	margin-bottom: 48px;
+	padding-top: 0;
+}
+
+.flyb-post-footer-cats {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	margin-bottom: 28px;
+	font-family: var(--flyb-font-heading);
+	font-size: 14px;
+	color: var(--flyb-slate);
+}
+
+.flyb-post-footer-cats svg {
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+}
+
+.flyb-post-footer-cats a {
+	color: var(--flyb-slate);
+	text-decoration: none;
+}
+
+.flyb-post-footer-cats a:hover,
+.flyb-post-footer-cats a:focus {
+	color: var(--flyb-orange);
+}
+
+.flyb-post-nav {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	gap: 32px;
+}
+
+.flyb-post-nav-link {
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+	max-width: 45%;
+	color: var(--flyb-charcoal);
+	text-decoration: none;
+}
+
+.flyb-post-nav-next {
+	margin-left: auto;
+	text-align: right;
+}
+
+.flyb-post-nav-title {
+	font-family: var(--flyb-font-body);
+	font-size: 20px;
+	line-height: 1.35;
+}
+
+.flyb-post-nav-link:hover .flyb-post-nav-title,
+.flyb-post-nav-link:focus .flyb-post-nav-title {
+	color: var(--flyb-orange);
+}
+
+.flyb-post-nav-arrow {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	flex-shrink: 0;
+	border: 1px solid var(--flyb-orange);
+	color: var(--flyb-orange);
+}
+
+.flyb-post-nav-arrow svg {
+	display: block;
+	width: 14px;
+	height: 14px;
+}
+
+@media (max-width: 768px) {
+	.flyb-post-nav {
+		flex-direction: column;
+		gap: 20px;
+	}
+
+	.flyb-post-nav-link {
+		max-width: none;
+	}
+
+	.flyb-post-nav-next {
+		margin-left: 0;
+		text-align: left;
 	}
 }
 
