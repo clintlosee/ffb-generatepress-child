@@ -1,0 +1,713 @@
+/*
+Theme Name: Fly Fishing Basics (GeneratePress Child)
+Template: generatepress
+Version: 1.5
+Description: Custom child theme for theflyfishingbasics.com. Scribe-style
+featured hero + Info-style "Most Popular" sidebar, built on GeneratePress.
+*/
+
+/* ==========================================================================
+   1. BRAND COLOR + TYPE TOKENS
+   Change these once here and every rule below updates automatically.
+   ========================================================================== */
+:root {
+	--flyb-orange: #FF6600;      /* Primary accent - buttons, links, highlights */
+	--flyb-navy: #18303D;        /* Headings, logo, dark UI */
+	--flyb-charcoal: #252A2D;    /* Body text */
+	--flyb-slate: #526B76;       /* Secondary text, borders */
+	--flyb-mist: #DCE5E7;        /* Card backgrounds, subtle UI */
+	--flyb-warm-white: #F7F5EF;  /* Main page background */
+	--flyb-white: #FFFFFF;       /* Contrast background */
+	--flyb-font-body: "Frank Ruhl Libre", Georgia, serif;
+	--flyb-font-heading: Inter, system-ui, sans-serif;
+}
+
+/* ==========================================================================
+   2. BASE / TYPOGRAPHY
+   Scale matches Scribe customizer; colors stay Fly Basics.
+   ========================================================================== */
+body,
+button,
+input,
+select,
+textarea {
+	font-family: var(--flyb-font-body);
+	font-size: 20px;
+	line-height: 1.5;
+}
+
+body {
+	background-color: var(--flyb-warm-white);
+	color: var(--flyb-charcoal);
+}
+
+h1, h2, h3, h4, h5, h6,
+.site-title,
+.main-title,
+.entry-title {
+	font-family: var(--flyb-font-heading);
+	color: var(--flyb-navy);
+}
+
+h1 {
+	font-weight: 800;
+	font-size: 40px;
+	line-height: 1.2em;
+	margin-bottom: 30px;
+}
+
+h2 {
+	font-weight: 700;
+	font-size: 30px;
+	line-height: 1.2em;
+	margin-bottom: 30px;
+}
+
+h3 {
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 1.4em;
+	margin-bottom: 20px;
+}
+
+h4 {
+	font-weight: 700;
+	font-size: 19px;
+	line-height: 1.5em;
+	margin-bottom: 30px;
+}
+
+@media (max-width: 768px) {
+	h1 {
+		font-size: 36px;
+	}
+
+	h2 {
+		font-size: 24px;
+		line-height: 1.3em;
+	}
+
+	h3 {
+		font-size: 20px;
+		margin-bottom: 30px;
+	}
+}
+
+a {
+	color: var(--flyb-orange);
+}
+
+a:hover,
+a:focus {
+	color: var(--flyb-navy);
+}
+
+.site-header {
+	background-color: var(--flyb-white);
+	border-bottom: 1px solid var(--flyb-mist);
+}
+
+.inside-header {
+	padding: 8px 32px;
+}
+
+.main-navigation a,
+.main-navigation .menu-toggle,
+.main-navigation .menu-bar-items {
+	font-family: var(--flyb-font-heading);
+	font-weight: 700;
+	text-transform: uppercase;
+	font-size: 13px;
+	letter-spacing: 1px;
+}
+
+.main-navigation .main-nav ul ul li a {
+	font-weight: 700;
+	font-size: 13px;
+	letter-spacing: 1px;
+}
+
+.menu-bar-item.flyb-social-links {
+	display: flex;
+	align-items: center;
+	column-gap: 15px;
+	padding-left: 8px;
+}
+
+.main-navigation .flyb-social-links a {
+	color: var(--flyb-orange);
+	display: inline-flex;
+	align-items: center;
+	padding: 0;
+	line-height: 1;
+	font-size: 18px;
+	text-transform: none;
+	letter-spacing: 0;
+}
+
+.main-navigation .flyb-social-links a:hover,
+.main-navigation .flyb-social-links a:focus {
+	color: var(--flyb-navy);
+}
+
+.flyb-social-links svg {
+	display: block;
+	width: 1.2em;
+	height: 1.2em;
+	fill: currentColor;
+}
+
+/* Primary buttons (CTAs, "Read More"). Skip menu-toggle so the hamburger
+   stays a header control, not an orange pill. */
+.button,
+button:not(.menu-toggle),
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+.wp-block-button__link {
+	font-family: var(--flyb-font-heading);
+	background-color: var(--flyb-orange);
+	color: var(--flyb-white);
+	border: none;
+	border-radius: 3px;
+	font-weight: 600;
+	text-transform: uppercase;
+	font-size: 16px;
+	letter-spacing: 1px;
+	line-height: 2em;
+	transition: background-color 0.2s ease;
+}
+
+.button:hover,
+button:not(.menu-toggle):hover,
+input[type="button"]:hover,
+input[type="reset"]:hover,
+input[type="submit"]:hover,
+.wp-block-button__link:hover {
+	background-color: var(--flyb-navy);
+	color: var(--flyb-white);
+}
+
+/* ==========================================================================
+   3. CATEGORY CHIPS (Scribe-style colored pills above post titles)
+   ========================================================================== */
+.flyb-category-chips {
+	display: flex;
+	gap: 6px;
+	margin-bottom: 10px;
+	flex-wrap: wrap;
+}
+
+.flyb-category-chips a {
+	font-family: var(--flyb-font-heading);
+	background-color: var(--flyb-navy);
+	color: var(--flyb-white);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	padding: 4px 10px;
+	border-radius: 3px;
+	text-decoration: none;
+}
+
+.flyb-category-chips a:hover {
+	background-color: var(--flyb-orange);
+	color: var(--flyb-white);
+}
+
+/* ==========================================================================
+   3a. FULL-WIDTH HOMEPAGE LAYOUT (unpaged home only)
+   Sidebar removal is handled by generate_sidebar_layout in functions.php.
+   These rules only full-bleed containers on homepage page 1 so /page/2+
+   keeps a normal content + sidebar layout.
+   ========================================================================== */
+body.home:not(.paged) .site-content,
+body.home:not(.paged) .grid-container {
+	max-width: 100%;
+}
+
+/* ==========================================================================
+   3b. HOMEPAGE WELCOME INTRO (Scribe-style: title | chevron | tagline)
+   ========================================================================== */
+.flyb-intro {
+	background-color: var(--flyb-warm-white);
+}
+
+.flyb-intro-inner {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 40px 30px 36px;
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	column-gap: 40px;
+	row-gap: 16px;
+}
+
+.flyb-intro-title {
+	flex: 0 1 48%;
+	max-width: 560px;
+	font-size: 60px;
+	font-weight: 800;
+	line-height: 1em;
+	color: var(--flyb-navy);
+	margin: 0;
+}
+
+.flyb-intro-copy {
+	display: flex;
+	align-items: center;
+	flex: 1 1 0;
+	min-width: 0;
+	column-gap: 24px;
+}
+
+.flyb-intro-chevron {
+	flex: 0 0 auto;
+	color: var(--flyb-orange);
+	line-height: 0;
+}
+
+.flyb-intro-chevron svg {
+	display: block;
+	width: 96px;
+	height: 96px;
+}
+
+.flyb-intro-chevron--image img {
+	display: block;
+	width: auto;
+	height: 96px;
+	object-fit: contain;
+}
+
+.flyb-intro-tagline {
+	flex: 1 1 0;
+	min-width: 0;
+	font-family: var(--flyb-font-heading);
+	font-size: 24px;
+	font-weight: 700;
+	line-height: 1.35;
+	color: var(--flyb-navy);
+	margin: 0;
+}
+
+@media (max-width: 1024px) {
+	.flyb-intro-inner {
+		flex-wrap: wrap;
+	}
+
+	.flyb-intro-title {
+		flex: 1 1 100%;
+		max-width: none;
+	}
+
+	.flyb-intro-copy {
+		flex: 1 1 100%;
+	}
+}
+
+@media (max-width: 767px) {
+	.flyb-intro-inner {
+		align-items: flex-start;
+		flex-direction: column;
+		padding: 28px 20px 24px;
+	}
+
+	.flyb-intro-title {
+		font-size: 48px;
+	}
+
+	.flyb-intro-copy {
+		width: 100%;
+		column-gap: 16px;
+	}
+
+	.flyb-intro-chevron svg,
+	.flyb-intro-chevron--image img {
+		width: 64px;
+		height: 64px;
+	}
+
+	.flyb-intro-tagline {
+		font-size: 20px;
+	}
+}
+
+/* ==========================================================================
+   4. HOMEPAGE FEATURED HERO (Scribe-style)
+   ========================================================================== */
+.flyb-hero {
+	background-color: var(--flyb-white);
+	padding: 40px 0;
+	margin-bottom: 40px;
+	border-bottom: 1px solid var(--flyb-mist);
+}
+
+.flyb-hero-inner {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 0 20px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 24px;
+}
+
+/* flex-basis is intentionally lower than the content column's typical
+   width so both columns fit side by side without wrapping. The
+   media query below forces a stack on genuinely small screens instead
+   of relying on flex-wrap to guess when to break. */
+.flyb-hero-text {
+	flex: 1 1 280px;
+	min-width: 0; /* prevents flex children from overflowing their container */
+}
+
+.flyb-hero-eyebrow {
+	font-family: var(--flyb-font-heading);
+	color: var(--flyb-orange);
+	font-size: 18px;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	line-height: 1em;
+	margin-bottom: 10px;
+	display: block;
+}
+
+.flyb-hero-title {
+	font-size: 48px;
+	font-weight: 700;
+	line-height: 1.1em;
+	margin: 0 0 16px 0;
+	color: var(--flyb-navy);
+}
+
+/* The link color rule (a { color: orange }) has the same specificity as
+   .flyb-hero-title, so without this it can win depending on CSS order.
+   Targeting the anchor directly guarantees the navy color and drops the
+   default underline. */
+.flyb-hero-title a {
+	color: var(--flyb-navy);
+	text-decoration: none;
+}
+
+.flyb-hero-title a:hover {
+	color: var(--flyb-orange);
+}
+
+.flyb-hero-excerpt {
+	color: var(--flyb-slate);
+	font-size: 20px;
+	margin-bottom: 20px;
+}
+
+.flyb-hero-image {
+	flex: 1 1 280px;
+	min-width: 0;
+}
+
+.flyb-hero-image img {
+	width: 100%;
+	height: auto;
+	border-radius: 6px;
+	display: block;
+}
+
+/* Force a clean stack on narrow screens rather than letting flex-wrap
+   decide, so the breakpoint is predictable. */
+@media (max-width: 700px) {
+	.flyb-hero-text,
+	.flyb-hero-image {
+		flex-basis: 100%;
+	}
+
+	.flyb-hero-title {
+		font-size: 36px;
+	}
+}
+
+/* ==========================================================================
+   4b. SECTION HEADINGS + LATEST ARTICLES GRID
+   ========================================================================== */
+.flyb-section-heading {
+	font-family: var(--flyb-font-heading);
+	font-size: 20px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--flyb-navy);
+	border-bottom: 3px solid var(--flyb-orange);
+	display: inline-block;
+	padding-bottom: 8px;
+	margin: 0 0 24px 0;
+}
+
+.flyb-latest-articles {
+	max-width: 1200px;
+	margin: 0 auto 40px auto;
+	padding: 0 20px;
+}
+
+.flyb-articles-grid {
+	display: grid !important;
+	grid-template-columns: repeat(3, 1fr) !important;
+	gap: 24px;
+}
+
+.flyb-card-title {
+	font-size: 17px;
+	line-height: 1.35;
+	margin: 0 0 8px 0;
+}
+
+.flyb-card-title a {
+	color: var(--flyb-navy);
+	text-decoration: none;
+}
+
+.flyb-card-title a:hover {
+	color: var(--flyb-orange);
+}
+
+.flyb-card-excerpt {
+	color: var(--flyb-slate);
+	font-size: 14px;
+	margin: 0;
+}
+
+@media (max-width: 900px) {
+	.flyb-articles-grid {
+		grid-template-columns: repeat(2, 1fr);
+	}
+}
+
+@media (max-width: 600px) {
+	.flyb-articles-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+/* ==========================================================================
+   4c. FLEXIBLE HOMEPAGE WIDGET AREA
+   Neutral container styling since this area could hold a newsletter
+   form, a promo block, or an ad unit, whatever gets dropped in.
+   ========================================================================== */
+.flyb-homepage-flexible {
+	max-width: 1200px;
+	margin: 0 auto 40px auto;
+	padding: 30px 20px;
+	background-color: var(--flyb-mist);
+	border-radius: 6px;
+}
+
+.flyb-flexible-widget {
+	max-width: 600px;
+	margin: 0 auto;
+	text-align: center;
+}
+
+/* ==========================================================================
+   5. MOST POPULAR SIDEBAR WIDGET (Info-style)
+   ========================================================================== */
+.flyb-popular-posts {
+	background-color: var(--flyb-white);
+	border: 1px solid var(--flyb-mist);
+	border-radius: 6px;
+	padding: 20px;
+}
+
+.flyb-popular-posts h3 {
+	font-family: var(--flyb-font-heading);
+	font-size: 15px;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	color: var(--flyb-navy);
+	border-bottom: 2px solid var(--flyb-orange);
+	padding-bottom: 8px;
+	margin-bottom: 16px;
+}
+
+.flyb-popular-post-item {
+	display: flex;
+	gap: 12px;
+	margin-bottom: 14px;
+	align-items: flex-start;
+}
+
+.flyb-popular-post-item:last-child {
+	margin-bottom: 0;
+}
+
+.flyb-popular-post-thumb img {
+	width: 60px;
+	height: 60px;
+	object-fit: cover;
+	border-radius: 4px;
+	flex-shrink: 0;
+}
+
+.flyb-popular-post-title {
+	font-family: var(--flyb-font-heading);
+	font-size: 13px;
+	font-weight: 600;
+	line-height: 1.35;
+	color: var(--flyb-charcoal);
+	text-decoration: none;
+}
+
+.flyb-popular-post-title:hover {
+	color: var(--flyb-orange);
+}
+
+/* ==========================================================================
+   6b. VIEW ALL POSTS BUTTON
+   ========================================================================== */
+.flyb-view-all-wrap {
+	max-width: 1200px;
+	margin: 0 auto 50px auto;
+	padding: 0 20px;
+	text-align: center;
+}
+
+.flyb-view-all-button {
+	display: inline-block;
+	padding: 12px 32px;
+}
+
+/* Safety net: if WordPress still renders a "nothing found" message where
+   the suppressed default loop used to be, hide it on homepage page 1 only. */
+body.home:not(.paged) .no-results {
+	display: none !important;
+}
+
+/* Static front page: Home page body stays empty. Theme already outputs
+   welcome/hero/grid. Hide GP's leftover page article ("Home" heading). */
+body.home.page:not(.paged) .site-main > article,
+body.home.page:not(.paged) #main > article {
+	display: none;
+}
+
+/* ==========================================================================
+   7. FOOTER
+   GeneratePress's default footer structure:
+   .site-footer wraps everything, .footer-widgets holds widget columns,
+   and the bottom copyright bar uses .footer-bar / .copyright-bar
+   depending on GP version. Styling both to be safe.
+   ========================================================================== */
+.site-footer,
+.site-footer .footer-widgets,
+#footer,
+footer.site-footer {
+	background-color: var(--flyb-navy) !important;
+	color: var(--flyb-mist) !important;
+}
+
+.site-footer a,
+#footer a {
+	color: var(--flyb-mist) !important;
+}
+
+.site-footer a:hover,
+#footer a:hover {
+	color: var(--flyb-orange) !important;
+}
+
+.site-footer .widget-title,
+.site-footer h2,
+.site-footer h3,
+#footer .widget-title {
+	font-family: var(--flyb-font-heading);
+	color: var(--flyb-white) !important;
+	text-transform: uppercase;
+	font-size: 14px;
+	letter-spacing: 0.05em;
+	border-bottom: 2px solid var(--flyb-orange);
+	padding-bottom: 8px;
+	margin-bottom: 16px;
+	display: inline-block;
+}
+
+.site-footer .footer-widgets {
+	padding: 50px 0;
+	min-height: 40px; /* Keeps the navy band visible even before you add footer widgets. */
+}
+
+/* Bottom copyright bar, sits below the widget columns, slightly darker. */
+.site-footer .footer-bar,
+.site-footer .copyright-bar,
+.site-info {
+	background-color: var(--flyb-charcoal) !important;
+	color: var(--flyb-mist) !important;
+	padding: 20px 0;
+	font-size: 13px;
+	text-align: center;
+}
+
+.site-footer .footer-bar a,
+.site-footer .copyright-bar a,
+.site-info a {
+	color: var(--flyb-orange) !important;
+}
+
+/* Removes extra whitespace some GP versions add between the main
+   content and the footer. */
+.site-content {
+	margin-bottom: 0 !important;
+	padding-bottom: 0 !important;
+}
+
+/* ==========================================================================
+   6. POST / ARCHIVE CARDS + ARTICLE PADDING
+   ========================================================================== */
+.flyb-post-card {
+	background-color: var(--flyb-white);
+	border: 1px solid var(--flyb-mist);
+	border-radius: 6px;
+	overflow: hidden;
+}
+
+.flyb-post-card img {
+	width: 100%;
+	aspect-ratio: 3 / 2;
+	object-fit: cover;
+	display: block;
+}
+
+.flyb-post-card .entry-content-inner {
+	padding: 16px;
+}
+
+.separate-containers .inside-article,
+.separate-containers .comments-area,
+.separate-containers .page-header,
+.separate-containers .paging-navigation,
+.inside-page-header {
+	padding: 80px 30px 50px;
+}
+
+@media (max-width: 768px) {
+	.separate-containers .inside-article,
+	.separate-containers .comments-area,
+	.separate-containers .page-header,
+	.separate-containers .paging-navigation,
+	.inside-page-header {
+		padding: 16px 24px;
+	}
+
+	.inside-header {
+		padding: 16px 32px;
+	}
+}
+
+/* Sidebar width only. Layout (when it shows) stays in flyb_sidebar_layout. */
+@media (min-width: 769px) {
+	.is-right-sidebar {
+		width: 30%;
+	}
+
+	body.right-sidebar .site-content .content-area {
+		width: 70%;
+	}
+}
