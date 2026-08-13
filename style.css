@@ -1,7 +1,7 @@
 /*
 Theme Name: Fly Fishing Basics (GeneratePress Child)
 Template: generatepress
-Version: 1.13
+Version: 1.14
 Description: Custom child theme for theflyfishingbasics.com. Scribe-style
 featured hero + Info-style "Most Popular" sidebar, built on GeneratePress.
 */
@@ -226,6 +226,18 @@ select,
 .flyb-category-chips a:hover {
 	background-color: var(--flyb-orange);
 	color: var(--flyb-white);
+}
+
+/* Homepage latest-article cards: tighter chips so multiple categories don't stack so tall. */
+.flyb-post-card .flyb-category-chips {
+	gap: 4px;
+	margin-bottom: 8px;
+}
+
+.flyb-post-card .flyb-category-chips a {
+	font-size: 10px;
+	letter-spacing: 0.05em;
+	padding: 2px 6px;
 }
 
 /* ==========================================================================
