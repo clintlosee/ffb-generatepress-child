@@ -1,7 +1,7 @@
 /*
 Theme Name: Fly Fishing Basics (GeneratePress Child)
 Template: generatepress
-Version: 1.6
+Version: 1.11
 Description: Custom child theme for theflyfishingbasics.com. Scribe-style
 featured hero + Info-style "Most Popular" sidebar, built on GeneratePress.
 */
@@ -664,6 +664,146 @@ footer.site-footer {
 .site-content {
 	margin-bottom: 0 !important;
 	padding-bottom: 0 !important;
+}
+
+/* ==========================================================================
+   6c. SCRIBE SINGLE POST HEADER
+   Full-width title | author box above content + sidebar.
+   ========================================================================== */
+.flyb-post-header {
+	padding: 16px 20px 0;
+}
+
+.flyb-post-header-inner {
+	max-width: 1200px;
+	margin: 0 auto;
+	display: flex;
+	background-color: var(--flyb-white);
+	border: 1px solid var(--flyb-mist);
+}
+
+.flyb-post-header-title {
+	flex: 1 1 65%;
+	min-width: 0;
+	padding: 24px 28px;
+	border-right: 1px solid var(--flyb-mist);
+}
+
+.flyb-post-header-title .entry-title {
+	font-size: 36px;
+	font-weight: 800;
+	line-height: 1.15;
+	margin: 0 0 10px;
+}
+
+.flyb-post-header-date {
+	font-family: var(--flyb-font-heading);
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--flyb-slate);
+	margin: 0;
+}
+
+.flyb-post-header-author {
+	flex: 0 1 35%;
+	max-width: 35%;
+	min-width: 0;
+	padding: 24px 28px;
+	display: flex;
+	align-items: flex-start;
+	gap: 12px;
+}
+
+.flyb-post-header-avatar,
+.flyb-post-header img.avatar {
+	display: block;
+	width: 40px;
+	height: 40px;
+	object-fit: cover;
+	border-radius: 0;
+	flex-shrink: 0;
+}
+
+.flyb-post-header-author-copy {
+	min-width: 0;
+	flex: 1 1 auto;
+}
+
+.flyb-post-header-byline {
+	font-family: var(--flyb-font-heading);
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--flyb-navy);
+	margin: 0 0 6px;
+}
+
+.flyb-post-header-bio {
+	font-size: 16px;
+	line-height: 1.4;
+	color: var(--flyb-slate);
+	margin: 0 0 10px;
+}
+
+.flyb-post-header .flyb-social-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+	align-items: center;
+}
+
+.flyb-post-header .flyb-social-links a {
+	display: inline-flex;
+	align-items: center;
+	color: var(--flyb-orange);
+	line-height: 0;
+	padding: 0;
+}
+
+.flyb-post-header .flyb-social-links svg {
+	display: block;
+	width: 18px;
+	height: 18px;
+	flex-shrink: 0;
+	fill: currentColor;
+}
+
+.flyb-post-header .flyb-social-links a:hover,
+.flyb-post-header .flyb-social-links a:focus {
+	color: var(--flyb-navy);
+}
+
+.flyb-scribe-single .inside-article .entry-header {
+	display: none;
+}
+
+.flyb-scribe-single.separate-containers .inside-article {
+	padding-top: 24px;
+}
+
+@media (max-width: 768px) {
+	.flyb-post-header-inner {
+		flex-direction: column;
+	}
+
+	.flyb-post-header-title {
+		border-right: none;
+		border-bottom: 1px solid var(--flyb-mist);
+		padding: 20px;
+	}
+
+	.flyb-post-header-title .entry-title {
+		font-size: 28px;
+	}
+
+	.flyb-post-header-author {
+		padding: 20px;
+		max-width: none;
+		flex: 1 1 auto;
+	}
 }
 
 /* ==========================================================================

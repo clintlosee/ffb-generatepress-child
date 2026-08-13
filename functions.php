@@ -8,6 +8,7 @@
  * - A Scribe-style featured hero on the homepage
  * - Category chips above post titles in archives
  * - An Info-style "Most Popular" sidebar widget
+ * - Scribe-style single post header (Classic Post template opts out)
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -57,14 +58,15 @@ add_action( 'wp_enqueue_scripts', 'flyb_enqueue_styles' );
 /**
  * 1b. Sidebar layout.
  * Homepage page 1 stays full-width (Scribe-style). Paged blog lists,
- * archives, and search get a right sidebar. Singles/pages keep Customizer.
+ * archives, search, and Scribe singles get a right sidebar. Classic
+ * singles and pages keep Customizer.
  */
 function flyb_sidebar_layout( $layout ) {
 	if ( is_front_page() && ! is_paged() ) {
 		return 'no-sidebar';
 	}
 
-	if ( is_page( 'blog' ) || is_home() || is_archive() || is_search() ) {
+	if ( is_page( 'blog' ) || is_home() || is_archive() || is_search() || flyb_is_scribe_single() ) {
 		return 'right-sidebar';
 	}
 
@@ -357,10 +359,11 @@ function flyb_social_networks() {
 }
 
 /**
- * Social icons after the primary menu, Scribe-style.
- * GP places generate_menu_bar_items in the nav and the mobile header.
+ * Built, escaped social-link markup from Customizer URLs.
+ *
+ * @return string[]
  */
-function flyb_nav_social_icons() {
+function flyb_get_social_links_html() {
 	$links = array();
 
 	foreach ( flyb_social_networks() as $key => $network ) {
@@ -370,7 +373,7 @@ function flyb_nav_social_icons() {
 		}
 
 		$links[] = sprintf(
-			'<a class="flyb-social-link" href="%1$s" target="_blank" rel="noopener noreferrer" aria-label="%2$s"><svg xmlns="http://www.w3.org/2000/svg" viewBox="%3$s" aria-hidden="true"><path fill="currentColor" d="%4$s"/></svg></a>',
+			'<a class="flyb-social-link" href="%1$s" target="_blank" rel="noopener noreferrer" aria-label="%2$s"><svg xmlns="http://www.w3.org/2000/svg" viewBox="%3$s" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="%4$s"/></svg></a>',
 			esc_url( $url ),
 			esc_attr( $network['label'] ),
 			esc_attr( $network['viewbox'] ),
@@ -378,6 +381,15 @@ function flyb_nav_social_icons() {
 		);
 	}
 
+	return $links;
+}
+
+/**
+ * Social icons after the primary menu, Scribe-style.
+ * GP places generate_menu_bar_items in the nav and the mobile header.
+ */
+function flyb_nav_social_icons() {
+	$links = flyb_get_social_links_html();
 	if ( empty( $links ) ) {
 		return;
 	}
@@ -387,6 +399,93 @@ function flyb_nav_social_icons() {
 	echo '</span>';
 }
 add_action( 'generate_menu_bar_items', 'flyb_nav_social_icons' );
+
+/**
+ * Default single layout is the Scribe header. Classic Post template opts out.
+ */
+function flyb_is_scribe_single() {
+	return is_singular( 'post' ) && ! is_page_template( 'classic-post.php' );
+}
+
+function flyb_scribe_single_body_class( $classes ) {
+	if ( flyb_is_scribe_single() ) {
+		$classes[] = 'flyb-scribe-single';
+	}
+
+	return $classes;
+}
+add_filter( 'body_class', 'flyb_scribe_single_body_class' );
+
+/**
+ * Hide GP's in-article title and header meta; those live in the Scribe header.
+ * Featured image stays in the content column.
+ */
+function flyb_scribe_single_setup() {
+	if ( ! flyb_is_scribe_single() ) {
+		return;
+	}
+
+	add_filter( 'generate_show_title', '__return_false' );
+	add_filter( 'generate_header_entry_meta_items', '__return_empty_array' );
+	add_filter( 'generate_post_date', '__return_false' );
+	add_filter( 'generate_post_author', '__return_false' );
+	remove_action( 'generate_after_entry_title', 'generate_post_meta' );
+	remove_action( 'generate_after_entry_title', 'generate_do_post_meta' );
+}
+add_action( 'wp', 'flyb_scribe_single_setup' );
+
+/**
+ * Full-width title | author box above the content + sidebar row.
+ * Priority 15: after GP's below-header navigation (priority 5).
+ */
+function flyb_scribe_post_header() {
+	if ( ! flyb_is_scribe_single() ) {
+		return;
+	}
+
+	$author_id = (int) get_the_author_meta( 'ID' );
+	$bio       = trim( wp_strip_all_tags( get_the_author_meta( 'description', $author_id ) ) );
+	$social    = flyb_get_social_links_html();
+	?>
+	<div class="flyb-post-header">
+		<div class="flyb-post-header-inner">
+			<div class="flyb-post-header-title">
+				<?php the_title( '<h1 class="entry-title">', '</h1>' ); ?>
+				<p class="flyb-post-header-date">
+					<time datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>">
+						<?php echo esc_html( get_the_date( 'F j, Y' ) ); ?>
+					</time>
+				</p>
+			</div>
+			<div class="flyb-post-header-author">
+				<?php
+				echo get_avatar(
+					$author_id,
+					40,
+					'',
+					get_the_author(),
+					array(
+						'class' => 'flyb-post-header-avatar',
+					)
+				);
+				?>
+				<div class="flyb-post-header-author-copy">
+					<p class="flyb-post-header-byline"><?php echo esc_html( 'Written by ' . get_the_author() ); ?></p>
+					<?php if ( '' !== $bio ) : ?>
+						<p class="flyb-post-header-bio"><?php echo esc_html( $bio ); ?></p>
+					<?php endif; ?>
+					<?php if ( ! empty( $social ) ) : ?>
+						<div class="flyb-social-links">
+							<?php echo implode( '', $social ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- built with esc_url/esc_attr in flyb_get_social_links_html. ?>
+						</div>
+					<?php endif; ?>
+				</div>
+			</div>
+		</div>
+	</div>
+	<?php
+}
+add_action( 'generate_after_header', 'flyb_scribe_post_header', 15 );
 
 /**
  * 2a. Homepage welcome intro.
