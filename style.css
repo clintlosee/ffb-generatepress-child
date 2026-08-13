@@ -1,7 +1,7 @@
 /*
 Theme Name: Fly Fishing Basics (GeneratePress Child)
 Template: generatepress
-Version: 1.5
+Version: 1.6
 Description: Custom child theme for theflyfishingbasics.com. Scribe-style
 featured hero + Info-style "Most Popular" sidebar, built on GeneratePress.
 */
@@ -169,7 +169,7 @@ input[type="submit"],
 	background-color: var(--flyb-orange);
 	color: var(--flyb-white);
 	border: none;
-	border-radius: 3px;
+	border-radius: 0;
 	font-weight: 600;
 	text-transform: uppercase;
 	font-size: 16px;
@@ -186,6 +186,19 @@ input[type="submit"]:hover,
 .wp-block-button__link:hover {
 	background-color: var(--flyb-navy);
 	color: var(--flyb-white);
+}
+
+img,
+input,
+textarea,
+select,
+.inside-article,
+.comments-area,
+.page-header,
+.paging-navigation,
+.widget,
+.search-field {
+	border-radius: 0;
 }
 
 /* ==========================================================================
@@ -207,7 +220,6 @@ input[type="submit"]:hover,
 	letter-spacing: 0.1em;
 	text-transform: uppercase;
 	padding: 4px 10px;
-	border-radius: 3px;
 	text-decoration: none;
 }
 
@@ -411,7 +423,6 @@ body.home:not(.paged) .grid-container {
 .flyb-hero-image img {
 	width: 100%;
 	height: auto;
-	border-radius: 6px;
 	display: block;
 }
 
@@ -499,7 +510,6 @@ body.home:not(.paged) .grid-container {
 	margin: 0 auto 40px auto;
 	padding: 30px 20px;
 	background-color: var(--flyb-mist);
-	border-radius: 6px;
 }
 
 .flyb-flexible-widget {
@@ -514,7 +524,6 @@ body.home:not(.paged) .grid-container {
 .flyb-popular-posts {
 	background-color: var(--flyb-white);
 	border: 1px solid var(--flyb-mist);
-	border-radius: 6px;
 	padding: 20px;
 }
 
@@ -544,7 +553,6 @@ body.home:not(.paged) .grid-container {
 	width: 60px;
 	height: 60px;
 	object-fit: cover;
-	border-radius: 4px;
 	flex-shrink: 0;
 }
 
@@ -664,7 +672,6 @@ footer.site-footer {
 .flyb-post-card {
 	background-color: var(--flyb-white);
 	border: 1px solid var(--flyb-mist);
-	border-radius: 6px;
 	overflow: hidden;
 }
 

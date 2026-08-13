@@ -310,9 +310,9 @@ function flyb_sanitize_intro_icon( $value ) {
  */
 function flyb_intro_icon_svg( $icon ) {
 	$svg = array(
-		'chevron' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M8 6l16 18L8 42" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M22 6l16 18-16 18" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-		'arrow'   => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M6 24h30M24 10l16 14-16 14" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-		'caret'   => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M14 6l20 18-20 18" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+		'chevron' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M8 6l16 18L8 42" stroke="currentColor" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter"/><path d="M22 6l16 18-16 18" stroke="currentColor" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter"/></svg>',
+		'arrow'   => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M6 24h30M24 10l16 14-16 14" stroke="currentColor" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter"/></svg>',
+		'caret'   => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M14 6l20 18-20 18" stroke="currentColor" stroke-width="5" stroke-linecap="square" stroke-linejoin="miter"/></svg>',
 	);
 
 	return isset( $svg[ $icon ] ) ? $svg[ $icon ] : '';
