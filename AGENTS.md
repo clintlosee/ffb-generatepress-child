@@ -29,8 +29,9 @@ Reading is expected to be **Your latest posts**, so `/` is the blog index. Custo
 1. Welcome row (4) — Customizer “Homepage Welcome”; empty title/tagline fall back to Settings → General
 2. Featured hero (5) — latest post (sticky respected); stores ID in `$GLOBALS['flyb_featured_post_id']`
 3. Latest Articles grid (6) — 6 posts, excludes the hero ID
-4. Flexible widget area (7) — `flyb-homepage-flexible`; render nothing if empty
-5. View All Posts (8) — links to `flyb_get_blog_url()` (`/blog`)
+4. Featured Articles grid (7) — Customizer “Homepage Featured Articles”; up to 6 picked posts, omitted if none; duplicates with hero/latest are allowed
+5. Flexible widget area (8) — `flyb-homepage-flexible`; render nothing if empty
+6. View All Posts (9) — links to `flyb_get_blog_url()` (`/blog`)
 
 `pre_get_posts` suppresses the default GP loop on front page page 1 only (`post__in => array(0)` — **never** `posts_per_page => 0`). Paged archives stay normal.
 

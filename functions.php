@@ -4,7 +4,7 @@
  *
  * Adds:
  * - Parent + child stylesheet loading
- * - Customizer controls for the homepage welcome row
+ * - Customizer controls for the homepage welcome row and featured articles
  * - A Scribe-style featured hero on the homepage
  * - Category chips above post titles in archives
  * - An Info-style "Most Popular" sidebar widget
@@ -283,11 +283,44 @@ function flyb_customize_register( $wp_customize ) {
 	);
 
 	$wp_customize->add_section(
+		'flyb_featured_articles',
+		array(
+			'title'       => 'Homepage Featured Articles',
+			'description' => 'Pick up to six posts for the Featured Articles grid below Latest Articles. Empty slots are skipped. Posts may also appear in the hero or Latest Articles.',
+			'priority'    => 31,
+		)
+	);
+
+	$article_choices = flyb_get_featured_article_choices();
+	for ( $i = 1; $i <= 6; $i++ ) {
+		$setting_id = 'flyb_featured_article_' . $i;
+		$wp_customize->add_setting(
+			$setting_id,
+			array(
+				'default'           => 0,
+				'type'              => 'theme_mod',
+				'capability'        => 'edit_theme_options',
+				'transport'         => 'refresh',
+				'sanitize_callback' => 'flyb_sanitize_featured_article_id',
+			)
+		);
+		$wp_customize->add_control(
+			$setting_id,
+			array(
+				'label'   => 'Post ' . $i,
+				'section' => 'flyb_featured_articles',
+				'type'    => 'select',
+				'choices' => $article_choices,
+			)
+		);
+	}
+
+	$wp_customize->add_section(
 		'flyb_social',
 		array(
 			'title'       => 'Social Links',
 			'description' => 'Profile URLs for icons next to the main menu. Leave a field blank to hide that icon.',
-			'priority'    => 31,
+			'priority'    => 32,
 		)
 	);
 
@@ -320,6 +353,67 @@ add_action( 'customize_register', 'flyb_customize_register' );
 function flyb_sanitize_intro_icon( $value ) {
 	$allowed = array( 'chevron', 'arrow', 'caret', 'none' );
 	return in_array( $value, $allowed, true ) ? $value : 'chevron';
+}
+
+/**
+ * Published post ID, or 0 for an empty Featured Articles slot.
+ */
+function flyb_sanitize_featured_article_id( $value ) {
+	$id = absint( $value );
+	if ( $id && 'post' === get_post_type( $id ) && 'publish' === get_post_status( $id ) ) {
+		return $id;
+	}
+	return 0;
+}
+
+/**
+ * Customizer-selected Featured Articles IDs, in slot order, skipping empties.
+ */
+function flyb_get_featured_article_ids() {
+	$ids = array();
+	for ( $i = 1; $i <= 6; $i++ ) {
+		$id = absint( get_theme_mod( 'flyb_featured_article_' . $i, 0 ) );
+		if ( $id && ! in_array( $id, $ids, true ) ) {
+			$ids[] = $id;
+		}
+	}
+	return $ids;
+}
+
+/**
+ * Dropdown choices for Featured Articles slots.
+ * Recent posts plus any already-selected IDs so older picks stay in the list.
+ */
+function flyb_get_featured_article_choices() {
+	$choices = array( 0 => '— Select a post —' );
+
+	$query = new WP_Query(
+		array(
+			'post_type'           => 'post',
+			'post_status'         => 'publish',
+			'posts_per_page'      => 200,
+			'orderby'             => 'date',
+			'order'               => 'DESC',
+			'ignore_sticky_posts' => true,
+			'no_found_rows'       => true,
+		)
+	);
+
+	foreach ( $query->posts as $post ) {
+		$choices[ $post->ID ] = $post->post_title;
+	}
+
+	foreach ( flyb_get_featured_article_ids() as $id ) {
+		if ( isset( $choices[ $id ] ) ) {
+			continue;
+		}
+		$title = get_the_title( $id );
+		if ( $title ) {
+			$choices[ $id ] = $title;
+		}
+	}
+
+	return $choices;
 }
 
 /**
@@ -722,7 +816,64 @@ function flyb_homepage_latest_articles() {
 add_action( 'generate_before_main_content', 'flyb_homepage_latest_articles', 6 );
 
 /**
- * 2c. Flexible homepage widget area.
+ * 2c. "Featured Articles" grid on the homepage.
+ * Curated posts from Appearance > Customize > Homepage Featured Articles.
+ * Duplicates with the hero or Latest Articles are allowed. Empty Customizer
+ * slots are skipped; the section is omitted when none are set.
+ */
+function flyb_homepage_featured_articles() {
+	if ( ! is_front_page() || is_paged() ) {
+		return;
+	}
+
+	$ids = flyb_get_featured_article_ids();
+	if ( empty( $ids ) ) {
+		return;
+	}
+
+	$articles_query = new WP_Query(
+		array(
+			'post_type'           => 'post',
+			'post_status'         => 'publish',
+			'post__in'            => $ids,
+			'orderby'             => 'post__in',
+			'posts_per_page'      => count( $ids ),
+			'ignore_sticky_posts' => true,
+		)
+	);
+
+	if ( ! $articles_query->have_posts() ) {
+		return;
+	}
+	?>
+	<div class="flyb-latest-articles">
+		<h2 class="flyb-section-heading">Featured Articles</h2>
+		<div class="flyb-articles-grid">
+			<?php while ( $articles_query->have_posts() ) : $articles_query->the_post(); ?>
+				<div class="flyb-post-card">
+					<?php if ( has_post_thumbnail() ) : ?>
+						<a href="<?php the_permalink(); ?>">
+							<?php the_post_thumbnail( 'flyb-card-thumb' ); ?>
+						</a>
+					<?php endif; ?>
+					<div class="entry-content-inner">
+						<?php flyb_category_chips(); ?>
+						<h3 class="flyb-card-title">
+							<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+						</h3>
+						<p class="flyb-card-excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 16 ) ); ?></p>
+					</div>
+				</div>
+			<?php endwhile; ?>
+		</div>
+	</div>
+	<?php
+	wp_reset_postdata();
+}
+add_action( 'generate_before_main_content', 'flyb_homepage_featured_articles', 7 );
+
+/**
+ * 2d. Flexible homepage widget area.
  * Registers a widget area you fully control from Appearance > Widgets.
  * Drop in a newsletter signup widget, a promo/CTA block, an ad unit,
  * or anything else, no code changes needed to swap it out later.
@@ -731,7 +882,7 @@ function flyb_register_homepage_widget_area() {
 	register_sidebar( array(
 		'name'          => 'Homepage Flexible Section',
 		'id'            => 'flyb-homepage-flexible',
-		'description'   => 'Displays below the Latest Articles grid on the homepage. Add a newsletter signup, CTA, or any widget here.',
+		'description'   => 'Displays below Featured Articles on the homepage. Add a newsletter signup, CTA, or any widget here.',
 		'before_widget' => '<div class="flyb-flexible-widget">',
 		'after_widget'  => '</div>',
 		'before_title'  => '<h2 class="flyb-section-heading">',
@@ -754,10 +905,10 @@ function flyb_homepage_flexible_section() {
 	</div>
 	<?php
 }
-add_action( 'generate_before_main_content', 'flyb_homepage_flexible_section', 7 );
+add_action( 'generate_before_main_content', 'flyb_homepage_flexible_section', 8 );
 
 /**
- * 2d. Suppress the default blog loop on the homepage.
+ * 2e. Suppress the default blog loop on the homepage.
  * GeneratePress normally runs its own post loop (with pagination) after
  * whatever the hooks above add. Since the hero + Latest Articles grid
  * already cover the homepage, this stops that default loop from also
@@ -781,7 +932,7 @@ function flyb_suppress_homepage_default_loop( $query ) {
 add_action( 'pre_get_posts', 'flyb_suppress_homepage_default_loop' );
 
 /**
- * 2e. "View All Posts" button.
+ * 2f. "View All Posts" button.
  * Replaces the old pagination with a single button linking to page 2
  * of the standard chronological archive, since the default loop above
  * is suppressed on page 1 specifically. Page 2 onward is untouched, so
@@ -799,7 +950,7 @@ function flyb_view_all_posts_button() {
 	</div>
 	<?php
 }
-add_action( 'generate_before_main_content', 'flyb_view_all_posts_button', 8 );
+add_action( 'generate_before_main_content', 'flyb_view_all_posts_button', 9 );
 
 /**
  * 3. Category chips above post titles.
