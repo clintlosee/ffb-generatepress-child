@@ -47,13 +47,17 @@ function flyb_enqueue_styles() {
 	);
 
 	wp_enqueue_style(
-		'flyb-child-style',
+		'flyb-style',
 		get_stylesheet_directory_uri() . '/style.css',
 		array( 'generatepress-parent-style', 'flyb-fonts' ),
 		wp_get_theme()->get( 'Version' )
 	);
+
+	// Avoid GP's duplicate child enqueue; minify was serving a stale copy of it.
+	wp_dequeue_style( 'generate-child' );
+	wp_deregister_style( 'generate-child' );
 }
-add_action( 'wp_enqueue_scripts', 'flyb_enqueue_styles' );
+add_action( 'wp_enqueue_scripts', 'flyb_enqueue_styles', 20 );
 
 /**
  * 1b. Sidebar layout.
