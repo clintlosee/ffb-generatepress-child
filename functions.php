@@ -569,6 +569,14 @@ function flyb_scribe_post_header() {
 					<time datetime="<?php echo esc_attr( get_the_date( DATE_W3C ) ); ?>">
 						<?php echo esc_html( get_the_date( 'F j, Y' ) ); ?>
 					</time>
+					<?php if ( get_the_modified_date( 'Y-m-d' ) > get_the_date( 'Y-m-d' ) ) : ?>
+						<span class="flyb-post-header-updated">
+							<?php echo esc_html( ' · Updated: ' ); ?>
+							<time datetime="<?php echo esc_attr( get_the_modified_date( DATE_W3C ) ); ?>">
+								<?php echo esc_html( get_the_modified_date( 'F j, Y' ) ); ?>
+							</time>
+						</span>
+					<?php endif; ?>
 				</p>
 			</div>
 			<div class="flyb-post-header-author">
