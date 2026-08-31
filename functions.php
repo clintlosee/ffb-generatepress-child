@@ -46,16 +46,22 @@ function flyb_enqueue_styles() {
 		get_template_directory_uri() . '/style.css'
 	);
 
+	$css_file = get_stylesheet_directory() . '/style.css';
+
 	wp_enqueue_style(
-		'flyb-style',
+		'flyb-theme',
 		get_stylesheet_directory_uri() . '/style.css',
 		array( 'generatepress-parent-style', 'flyb-fonts' ),
-		wp_get_theme()->get( 'Version' )
+		file_exists( $css_file ) ? (string) filemtime( $css_file ) : wp_get_theme()->get( 'Version' )
 	);
 
-	// Avoid GP's duplicate child enqueue; minify was serving a stale copy of it.
+	// Minify writes {handle}.min.css in the theme folder and will keep
+	// serving a stale copy until the handle changes. filemtime busts
+	// the query string; dequeue drops GP's duplicate child enqueue.
 	wp_dequeue_style( 'generate-child' );
 	wp_deregister_style( 'generate-child' );
+	wp_dequeue_style( 'flyb-style' );
+	wp_deregister_style( 'flyb-style' );
 }
 add_action( 'wp_enqueue_scripts', 'flyb_enqueue_styles', 20 );
 
