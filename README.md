@@ -21,6 +21,46 @@
 6. Go to Appearance > Customize > Homepage Welcome to set the title, tagline, and icon (text glyph or uploaded image). Blank title/tagline fall back to Settings > General.
 7. Go to Appearance > Customize > Homepage Featured Articles to pick up to six posts for that grid. Leave slots empty to skip them.
 
+## AvantLink gear catalog
+The theme can synchronize one complete, tab-delimited AvantLink product feed
+into a private WordPress catalog. Products have no local permalink; every
+product image, title, and Buy button links to the merchant through AvantLink.
+
+### First import
+1. In AvantLink, rotate the feed authentication token if its download URL has
+   ever been shared publicly.
+2. Go to Settings > Gear Catalog.
+3. Paste the base HTTPS download URL. It must use
+   `datafeed.avantlink.com/download_feed.php` and contain `id` and `auth`
+   parameters. The URL is stored in WordPress settings and must never be added
+   to this repository.
+4. Save, then select **Run import now**. The status area reports inserted,
+   updated, drafted, and skipped products.
+5. Enable the daily import after confirming the first run. WP-Cron runs on site
+   traffic, so a low-traffic site may run it later than the exact scheduled
+   time.
+
+The importer uses the complete feed. Products missing from a successful full
+download become drafts. It intentionally ignores pricing history, variants,
+and incremental download modes.
+
+### Catalog pages
+Create ordinary Pages and put one shortcode in each page:
+
+- **Gear**, slug `gear`: `[flyb_products]`
+- **Reels**, slug `reels`: `[flyb_products department="Fly Reels"]`
+- **Rods**, slug `rods`: `[flyb_products department="Fly Rods"]`
+- **Lines**, slug `lines`: `[flyb_products department="Fly Lines"]`
+
+The value of `department` must match the feed's Department column (a taxonomy
+slug such as `fly-reels` also works). The unqualified shortcode shows
+department and brand filters. A department-specific shortcode locks that
+department and keeps the brand filter. All lists show 24 products per page.
+
+Add the pages to a WordPress menu as needed. Set the affiliate disclosure under
+Appearance > Customize > Affiliate / Ads Disclosure before publishing catalog
+pages.
+
 ## Ads & disclosure
 The theme provides placement and neutral wrappers only. AdSense, Site Kit,
 Amazon product markup, and publisher IDs stay in plugins or widgets.

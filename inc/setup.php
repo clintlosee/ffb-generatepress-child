@@ -51,10 +51,24 @@ function flyb_enqueue_styles() {
 add_action( 'wp_enqueue_scripts', 'flyb_enqueue_styles', 20 );
 
 /**
+ * Check whether page content contains the product catalog shortcode.
+ *
+ * @param string $content Page content.
+ * @return bool
+ */
+function flyb_content_has_product_catalog( $content ) {
+	return has_shortcode( (string) $content, 'flyb_products' );
+}
+
+/**
  * Keep the first homepage full-width and use a sidebar on post lists and Scribe singles.
  */
 function flyb_sidebar_layout( $layout ) {
 	if ( is_front_page() && ! is_paged() ) {
+		return 'no-sidebar';
+	}
+
+	if ( is_singular( 'page' ) && flyb_content_has_product_catalog( get_post_field( 'post_content', get_queried_object_id() ) ) ) {
 		return 'no-sidebar';
 	}
 

@@ -17,6 +17,8 @@ $flyb_includes = array(
 	'/inc/homepage.php',
 	'/inc/monetization.php',
 	'/inc/widgets.php',
+	'/inc/products.php',
+	'/inc/products-import.php',
 );
 
 foreach ( $flyb_includes as $flyb_file ) {
