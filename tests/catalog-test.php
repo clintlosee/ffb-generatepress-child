@@ -178,7 +178,9 @@ $customizer = file_get_contents( dirname( __DIR__ ) . '/inc/customizer.php' );
 flyb_test_assert( false !== strpos( $customizer, "'flyb_product_button_label'" ), 'product button text is a Customizer setting' );
 
 $style = file_get_contents( dirname( __DIR__ ) . '/style.css' );
-flyb_test_assert( false !== strpos( $style, 'Version: 1.0.6' ), 'theme version is bumped for catalog CSS' );
+$setup = file_get_contents( $setup_file );
+flyb_test_assert( false !== strpos( $setup, 'flyb-theme-' ), 'stylesheet handle is versioned so minify cannot keep a stale flyb-theme.min.css' );
+flyb_test_assert( false !== strpos( $style, 'Version: 1.0.7' ), 'theme version is bumped for catalog CSS' );
 flyb_test_assert( false !== strpos( $style, '.flyb-product-grid' ), 'product grid styles exist' );
 flyb_test_assert( false !== strpos( $style, '.flyb-product-filters' ), 'product filter styles exist' );
 

@@ -5,7 +5,7 @@ Author: Clint Losee
 Author URI: https://theflyfishingbasics.com
 Description: GeneratePress child theme for theflyfishingbasics.com. Based on Scribe theme, custom homepage with featured hero, latest articles grid, and Info-style Most Popular sidebar.
 Template: generatepress
-Version: 1.0.6
+Version: 1.0.7
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -168,6 +168,8 @@ a:focus {
 /* Primary buttons (CTAs, "Read More"). Skip menu-toggle so the hamburger
    stays a header control, not an orange pill. */
 .button,
+a.button,
+a.button:visited,
 button:not(.menu-toggle),
 input[type="button"],
 input[type="reset"],
@@ -187,6 +189,8 @@ input[type="submit"],
 }
 
 .button:hover,
+a.button:hover,
+a.button:focus,
 button:not(.menu-toggle):hover,
 input[type="button"]:hover,
 input[type="reset"]:hover,

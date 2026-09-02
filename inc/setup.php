@@ -32,21 +32,23 @@ function flyb_enqueue_styles() {
 	);
 
 	$css_file = get_stylesheet_directory() . '/style.css';
+	$css_ver  = file_exists( $css_file ) ? (string) filemtime( $css_file ) : (string) wp_get_theme()->get( 'Version' );
+	// Minify rewrites this to {handle}.min.css with no query string, so the
+	// handle itself has to change or browsers keep a stale copy forever.
+	$style_handle = 'flyb-theme-' . sanitize_key( $css_ver );
 
 	wp_enqueue_style(
-		'flyb-theme',
+		$style_handle,
 		get_stylesheet_directory_uri() . '/style.css',
 		array( 'generatepress-parent-style', 'flyb-fonts' ),
-		file_exists( $css_file ) ? (string) filemtime( $css_file ) : wp_get_theme()->get( 'Version' )
+		$css_ver
 	);
 
-	// Minify writes {handle}.min.css in the theme folder and will keep
-	// serving a stale copy until the handle changes. filemtime busts
-	// the query string; dequeue drops GP's duplicate child enqueue.
-	wp_dequeue_style( 'generate-child' );
-	wp_deregister_style( 'generate-child' );
-	wp_dequeue_style( 'flyb-style' );
-	wp_deregister_style( 'flyb-style' );
+	$stale_handles = array( 'generate-child', 'flyb-style', 'flyb-theme' );
+	foreach ( $stale_handles as $handle ) {
+		wp_dequeue_style( $handle );
+		wp_deregister_style( $handle );
+	}
 }
 add_action( 'wp_enqueue_scripts', 'flyb_enqueue_styles', 20 );
 
