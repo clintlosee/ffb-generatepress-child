@@ -5,7 +5,7 @@ Author: Clint Losee
 Author URI: https://theflyfishingbasics.com
 Description: GeneratePress child theme for theflyfishingbasics.com. Based on Scribe theme, custom homepage with featured hero, latest articles grid, and Info-style Most Popular sidebar.
 Template: generatepress
-Version: 1.0.4
+Version: 1.0.5
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -1054,5 +1054,227 @@ footer.site-footer {
 
 	body.right-sidebar .site-content .content-area {
 		width: 70%;
+	}
+}
+
+/* ==========================================================================
+   7. AFFILIATE PRODUCT CATALOG
+   ========================================================================== */
+.flyb-product-catalog {
+	max-width: 1200px;
+	margin-inline: auto;
+}
+
+.flyb-product-filters {
+	display: flex;
+	align-items: flex-end;
+	flex-wrap: wrap;
+	gap: 16px;
+	padding: 20px;
+	margin-bottom: 32px;
+	background: var(--flyb-white);
+	border: 1px solid var(--flyb-mist);
+}
+
+.flyb-product-filter-field {
+	flex: 1 1 220px;
+	margin: 0;
+}
+
+.flyb-product-filter-field span {
+	display: block;
+	margin-bottom: 6px;
+	font-family: var(--flyb-font-heading);
+	font-size: 13px;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	color: var(--flyb-navy);
+}
+
+.flyb-product-filter-field select {
+	width: 100%;
+	min-height: 46px;
+	padding: 8px 36px 8px 12px;
+	font-size: 16px;
+	background-color: var(--flyb-white);
+	border: 1px solid var(--flyb-slate);
+}
+
+.flyb-product-filter-actions {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	min-height: 46px;
+}
+
+.flyb-product-filter-actions .button {
+	min-height: 46px;
+	padding-inline: 20px;
+}
+
+.flyb-product-filter-actions a {
+	font-family: var(--flyb-font-heading);
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.flyb-product-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 20px;
+}
+
+.flyb-product-card {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	overflow: hidden;
+	background: var(--flyb-white);
+	border: 1px solid var(--flyb-mist);
+}
+
+.flyb-product-image {
+	display: block;
+	background: var(--flyb-white);
+}
+
+.flyb-product-image img {
+	display: block;
+	width: 100%;
+	aspect-ratio: 1 / 1;
+	object-fit: contain;
+}
+
+.flyb-product-card-content {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	align-items: flex-start;
+	padding: 18px;
+}
+
+.flyb-product-brand {
+	margin: 0 0 6px;
+	font-family: var(--flyb-font-heading);
+	font-size: 12px;
+	font-weight: 700;
+	letter-spacing: 0.06em;
+	text-transform: uppercase;
+	color: var(--flyb-slate);
+}
+
+.flyb-product-title {
+	margin: 0 0 12px;
+	font-size: 18px;
+	line-height: 1.35;
+}
+
+.flyb-product-title a {
+	color: var(--flyb-navy);
+	text-decoration: none;
+}
+
+.flyb-product-title a:hover,
+.flyb-product-title a:focus {
+	color: var(--flyb-orange);
+}
+
+.flyb-product-price {
+	margin: auto 0 16px;
+	font-family: var(--flyb-font-heading);
+	font-size: 17px;
+	font-weight: 700;
+	color: var(--flyb-navy);
+}
+
+.flyb-product-price del {
+	margin-right: 8px;
+	font-weight: 600;
+	color: var(--flyb-slate);
+}
+
+.flyb-product-price ins {
+	color: var(--flyb-orange);
+	text-decoration: none;
+}
+
+.flyb-product-buy {
+	padding-inline: 20px;
+}
+
+.flyb-product-tracking {
+	position: absolute;
+	width: 0;
+	height: 0;
+	overflow: hidden;
+}
+
+.flyb-product-empty {
+	padding: 24px;
+	background: var(--flyb-white);
+	border: 1px solid var(--flyb-mist);
+}
+
+.flyb-product-pagination {
+	margin-top: 36px;
+}
+
+.flyb-product-pagination .page-numbers {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+.flyb-product-pagination a,
+.flyb-product-pagination span {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 42px;
+	min-height: 42px;
+	padding: 6px 12px;
+	font-family: var(--flyb-font-heading);
+	font-size: 14px;
+	text-decoration: none;
+	background: var(--flyb-white);
+	border: 1px solid var(--flyb-mist);
+}
+
+.flyb-product-pagination .current,
+.flyb-product-pagination a:hover,
+.flyb-product-pagination a:focus {
+	color: var(--flyb-white);
+	background: var(--flyb-navy);
+	border-color: var(--flyb-navy);
+}
+
+@media (min-width: 600px) {
+	.flyb-product-grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}
+
+@media (min-width: 1025px) {
+	.flyb-product-grid {
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		gap: 24px;
+	}
+}
+
+@media (max-width: 599px) {
+	.flyb-product-filters,
+	.flyb-product-filter-actions {
+		align-items: stretch;
+		flex-direction: column;
+	}
+
+	.flyb-product-filter-field {
+		flex-basis: auto;
+		width: 100%;
 	}
 }
