@@ -5,7 +5,7 @@
 - Adds a Scribe-style featured hero to the homepage (pulls your latest post automatically)
 - Adds a "Latest Articles" grid below the hero, 6 posts in 3 columns, automatically excluding whichever post is currently in the hero so nothing repeats
 - Adds a "Featured Articles" grid below Latest Articles, up to 6 posts you pick in Appearance > Customize > Homepage Featured Articles (empty slots are skipped; the section hides if none are set)
-- Adds a flexible widget area below Featured Articles, add a newsletter signup, CTA, ad unit, or any widget here, no code changes needed to swap it later (Appearance > Widgets > "Homepage Flexible Section")
+- Adds a flexible widget area below Featured Articles for a newsletter signup, CTA, or other non-ad content (Appearance > Widgets > "Homepage Flexible Section")
 - Adds colored category chips above post titles in archive views
 - Adds a "Most Popular" sidebar widget, Info-style, ranked by comment activity in the last 90 days (falls back to most recent posts if nothing has comments)
 
@@ -20,6 +20,30 @@
 5. Go to Appearance > Customize > Layout > Sidebar, enable a right sidebar on your archive/post templates if it's not already showing
 6. Go to Appearance > Customize > Homepage Welcome to set the title, tagline, and icon (text glyph or uploaded image). Blank title/tagline fall back to Settings > General.
 7. Go to Appearance > Customize > Homepage Featured Articles to pick up to six posts for that grid. Leave slots empty to skip them.
+
+## Ads & disclosure
+The theme provides placement and neutral wrappers only. AdSense, Site Kit,
+Amazon product markup, and publisher IDs stay in plugins or widgets.
+
+- **Homepage Mid Ad** appears between Latest Articles and Featured Articles.
+- **Sidebar Ad** appears after the normal right-sidebar widget area. Put the
+  Most Popular widget and other regular widgets in the primary sidebar; put
+  only the ad widget in this dedicated area.
+- **After Post Content Ad** appears once on single posts. It is inserted at
+  `the_content` priority 18, after the Scribe post footer at 15 and before
+  related-post filters that use priority 19 or later.
+
+Add a Custom HTML, AdSense, or Site Kit widget under Appearance > Widgets.
+Empty ad areas render no wrapper or spacing. Set the sitewide plain-text
+disclosure under Appearance > Customize > Affiliate / Ads Disclosure; it
+appears above the footer and hides when blank.
+
+True mid-article insertion is intentionally left to Ad Inserter so it can
+coordinate with tables of contents, related posts, and product plugins. This
+repo has no sample `amz-inserts` markup or stable plugin class names, so the
+theme does not guess at product-specific selectors; products inside a slot get
+the neutral `.flyb-ad-slot` sizing, and plugin selectors can be added once real
+markup is available.
 
 ## To adjust colors later
 Everything is controlled from the `:root` block at the top of `style.css`.

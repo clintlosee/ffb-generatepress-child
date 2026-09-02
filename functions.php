@@ -15,6 +15,7 @@ $flyb_includes = array(
 	'/inc/setup.php',
 	'/inc/customizer.php',
 	'/inc/homepage.php',
+	'/inc/monetization.php',
 	'/inc/widgets.php',
 );
 
