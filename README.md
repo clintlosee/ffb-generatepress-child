@@ -57,6 +57,8 @@ slug such as `fly-reels` also works). The unqualified shortcode shows
 department and brand filters. A department-specific shortcode locks that
 department and keeps the brand filter. All lists show 24 products per page.
 
+Change the product card button text under Appearance > Customize > Gear Catalog.
+
 Add the pages to a WordPress menu as needed. Set the affiliate disclosure under
 Appearance > Customize > Affiliate / Ads Disclosure before publishing catalog
 pages.

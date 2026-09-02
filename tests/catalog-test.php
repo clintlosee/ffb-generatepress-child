@@ -70,6 +70,10 @@ function register_taxonomy( $taxonomy, $object_type, $args ) {
 	);
 }
 
+function get_theme_mod( $name, $default = false ) {
+	return $default;
+}
+
 function flyb_test_assert( $condition, $message ) {
 	if ( ! $condition ) {
 		fwrite( STDERR, "FAIL: {$message}\n" );
@@ -168,8 +172,13 @@ flyb_test_assert( flyb_content_has_product_catalog( '[flyb_products]' ), 'plain 
 flyb_test_assert( flyb_content_has_product_catalog( '[flyb_products department="Fly Reels"]' ), 'department catalog shortcode is detected' );
 flyb_test_assert( ! flyb_content_has_product_catalog( '[gallery]' ), 'unrelated content is not detected as a catalog' );
 
+flyb_test_assert( 'Check Price' === flyb_get_product_button_label(), 'product button defaults to Check Price' );
+
+$customizer = file_get_contents( dirname( __DIR__ ) . '/inc/customizer.php' );
+flyb_test_assert( false !== strpos( $customizer, "'flyb_product_button_label'" ), 'product button text is a Customizer setting' );
+
 $style = file_get_contents( dirname( __DIR__ ) . '/style.css' );
-flyb_test_assert( false !== strpos( $style, 'Version: 1.0.5' ), 'theme version is bumped for catalog CSS' );
+flyb_test_assert( false !== strpos( $style, 'Version: 1.0.6' ), 'theme version is bumped for catalog CSS' );
 flyb_test_assert( false !== strpos( $style, '.flyb-product-grid' ), 'product grid styles exist' );
 flyb_test_assert( false !== strpos( $style, '.flyb-product-filters' ), 'product filter styles exist' );
 

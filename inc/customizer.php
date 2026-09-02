@@ -171,6 +171,35 @@ function flyb_customize_register( $wp_customize ) {
 			)
 		);
 	}
+
+	$wp_customize->add_section(
+		'flyb_catalog',
+		array(
+			'title'       => 'Gear Catalog',
+			'description' => 'Labels used on catalog product cards.',
+			'priority'    => 34,
+		)
+	);
+
+	$wp_customize->add_setting(
+		'flyb_product_button_label',
+		array(
+			'default'           => 'Check Price',
+			'type'              => 'theme_mod',
+			'capability'        => 'edit_theme_options',
+			'transport'         => 'refresh',
+			'sanitize_callback' => 'sanitize_text_field',
+		)
+	);
+	$wp_customize->add_control(
+		'flyb_product_button_label',
+		array(
+			'label'       => 'Product button text',
+			'description' => 'Shown on every catalog card. Leave blank to use “Check Price”.',
+			'section'     => 'flyb_catalog',
+			'type'        => 'text',
+		)
+	);
 }
 add_action( 'customize_register', 'flyb_customize_register' );
 

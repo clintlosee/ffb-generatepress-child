@@ -5,7 +5,7 @@ Author: Clint Losee
 Author URI: https://theflyfishingbasics.com
 Description: GeneratePress child theme for theflyfishingbasics.com. Based on Scribe theme, custom homepage with featured hero, latest articles grid, and Info-style Most Popular sidebar.
 Template: generatepress
-Version: 1.0.5
+Version: 1.0.6
 Requires at least: 6.0
 Tested up to: 6.8
 Requires PHP: 7.4
@@ -1221,7 +1221,7 @@ footer.site-footer {
 	margin-top: 36px;
 }
 
-.flyb-product-pagination .page-numbers {
+.flyb-product-pagination ul.page-numbers {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
@@ -1243,6 +1243,12 @@ footer.site-footer {
 	text-decoration: none;
 	background: var(--flyb-white);
 	border: 1px solid var(--flyb-mist);
+}
+
+.flyb-product-pagination .prev,
+.flyb-product-pagination .next {
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
 .flyb-product-pagination .current,

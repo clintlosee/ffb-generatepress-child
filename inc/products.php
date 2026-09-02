@@ -214,6 +214,15 @@ function flyb_render_product_price( $retail_price, $sale_price ) {
 }
 
 /**
+ * Product card CTA label from Customizer.
+ */
+function flyb_get_product_button_label() {
+	$label = trim( (string) get_theme_mod( 'flyb_product_button_label', 'Check Price' ) );
+
+	return '' !== $label ? $label : 'Check Price';
+}
+
+/**
  * Render one affiliate product card.
  *
  * @param int $post_id Product post ID.
@@ -227,6 +236,7 @@ function flyb_render_product_card( $post_id ) {
 	$tracking_url   = get_post_meta( $post_id, '_flyb_tracking_url', true );
 	$brands         = get_the_terms( $post_id, 'flyb_brand' );
 	$brand          = ! is_wp_error( $brands ) && ! empty( $brands ) ? $brands[0]->name : '';
+	$button_label   = flyb_get_product_button_label();
 	?>
 	<article class="flyb-product-card">
 		<?php if ( '' !== $image_url ) : ?>
@@ -244,7 +254,7 @@ function flyb_render_product_card( $post_id ) {
 				</a>
 			</h2>
 			<?php flyb_render_product_price( $retail_price, $sale_price ); ?>
-			<a class="button flyb-product-buy" href="<?php echo esc_url( $buy_url ); ?>" target="_blank" rel="sponsored noopener noreferrer">Buy</a>
+			<a class="button flyb-product-buy" href="<?php echo esc_url( $buy_url ); ?>" target="_blank" rel="sponsored noopener noreferrer"><?php echo esc_html( $button_label ); ?></a>
 		</div>
 		<?php if ( '' !== $tracking_url ) : ?>
 			<img class="flyb-product-tracking" src="<?php echo esc_url( $tracking_url ); ?>" width="0" height="0" alt="" aria-hidden="true">
