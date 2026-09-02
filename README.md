@@ -36,6 +36,9 @@ Homepage Featured Articles and can include that same post.
 ## Notes
 - This intentionally does NOT touch your existing post content or theme,
   it only adds a child theme layer on top of GeneratePress
+- The child stylesheet uses `style.css`'s file modification time as its
+  enqueue version, so changing that file automatically busts browser caches.
+  The theme header version is only the fallback when the file time is unavailable.
 - Test on staging first, then activate on the live site once you're happy
 - Send screenshots after activating and I can adjust spacing, sizing, or
   layout details from there
