@@ -99,6 +99,9 @@ the blog" option (Edit Post > Post > Visibility > Stick to the front
 page). The separate Featured Articles grid is chosen in Customize >
 Homepage Featured Articles and can include that same post.
 
+## Later theme ideas
+See `THEME-ROADMAP.md` for saved Customizer, listing, homepage, and catalog ideas, ordered by benefit. It is a planning list, not work scheduled in this install.
+
 ## Notes
 - This intentionally does NOT touch your existing post content or theme,
   it only adds a child theme layer on top of GeneratePress
